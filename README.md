@@ -1,36 +1,13 @@
 # gametree
 
-FIXME: description
+The project uses [Midje](https://github.com/marick/Midje/).
 
-## Installation
+## How to run the tests
 
-Download from http://example.com/FIXME.
+`lein midje` will run all tests.
 
-## Usage
+`lein midje namespace.*` will run only tests beginning with "namespace.".
 
-FIXME: explanation
-
-    $ java -jar gametree-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
-
-## License
-
-Copyright © 2016 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+`lein midje :autotest` will run all the tests indefinitely. It sets up a
+watcher on the code files. If they change, only the relevant tests will be
+run again.
