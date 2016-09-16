@@ -1,0 +1,12 @@
+3c3
+<         <amount type="notional">-60450000.0</amount>
+---
+>   <amount type="notional">-60450000.00000000</amount>
+12c12
+<         <price>-6.65604844614</price>
+---
+>     <price>-6.656048446141737</price>
+62c62
+<                 <customBucketValue>-4023581.28569</customBucketValue>
+---
+>             <customBucketValue>-4023581.28569268</customBucketValue>
