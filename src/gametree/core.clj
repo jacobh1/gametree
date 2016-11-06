@@ -59,6 +59,14 @@
      ]
     ))
 
+(defn same-board? [board1 board2]
+  (or
+    (= board1 board2)
+    (= board1 (rotate-clockwise board2))
+    (= board1 (rotate-clockwise (rotate-clockwise board2)))
+    (= board1 (rotate-counter-clockwise board2))
+    ))
+
 (defn has-row-winner? [board]
   (let [[row0 row1 row2] board]
     (or 
@@ -113,6 +121,18 @@
 (defn next-moves-for-player [board player]
   (map #(assoc (vec-from-board board) % player) (get-coords-for-item board empty-square))
   )
+
+(defn dedupe-board-vec-list [board-vec-list]
+  (cond 
+    (= 0 (count board-vec-list)) nil
+    (= 1 (count board-vec-list)) board-vec-list
+    :else 
+    (cons (first board-vec-list)
+        (dedupe-board-vec-list 
+          (filter #((complement same-board?) (board-from-vec (first board-vec-list)) (board-from-vec %)) (rest board-vec-list))
+          )
+        )
+  ))
 
 ;(defn num-open-spots [board]
 ;  (let [[row0 row1 row2] board]
