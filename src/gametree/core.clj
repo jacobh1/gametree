@@ -26,6 +26,18 @@
                     [4 5 6]
                     [7 8 9]])
 
+(defn vec-from-board [board]
+  (into [] (flatten board))
+  )
+
+(defn board-from-vec [flat-board-vec]
+  (let [[e0 e1 e2 e3 e4 e5 e6 e7 e8] flat-board-vec]
+   [[e0 e1 e2]
+    [e3 e4 e5]
+    [e6 e7 e8]
+    ]
+  ))
+
 (defn row-values [board coord]
   (let [[row col] coord] 
     (apply sorted-set (get board row))
@@ -62,7 +74,7 @@
 (defn has-diagonal-winner? [board]
   (let [[row0 row1 row2] board]
     (or
-      (and (= X (get row0 0)) 
+      (and (= X (get row0 0))
            (= X (get row1 1)) 
            (= X (get row2 2)))
       (and (= O (get row0 0)) 
@@ -89,13 +101,19 @@
   (not (open-spots? board))
   )
 
-
 (defn game-over? [board]
   (or (has-winner? board)
       (board-full? board)
       ))
 
+(defn get-coords-for-item [board item]
+  (map first (filter #(= item (second %)) (map-indexed vector (flatten board))))
+)
+
+(defn next-moves-for-player [board player]
+  (map #(assoc (vec-from-board board) % player) (get-coords-for-item board empty-square))
+  )
+
 ;(defn num-open-spots [board]
 ;  (let [[row0 row1 row2] board]
-
 
