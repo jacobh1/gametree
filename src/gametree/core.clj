@@ -134,6 +134,99 @@
         )
   ))
 
+(defn unique-next-moves-for-player [board player]
+  (dedupe-board-vec-list (next-moves-for-player board player))
+  )
+
+(defn add-next-move-children [board player]
+  (cons (vec-from-board board) (vector (unique-next-moves-for-player board player)))
+  )
+
+(defn pack-seq [sq] 
+  (loop [in sq out [] pack '()] 
+    (if (empty? in) 
+      (conj out pack)
+      (if (or (contains? (set pack) (first in)) (empty? pack))
+        (recur (rest in) 
+               out 
+               (cons (first in) pack)) 
+        (recur (rest in) 
+               (conj out pack) 
+               (list(first in)))
+        )
+      )
+    ))
+
+(defn drop-nth [sq n]
+    (if (< (count sq) n)
+          sq
+          (flatten (cons (take (dec n) sq) (drop-nth (drop n sq) n )))
+          )
+    )
+
+(defn rep-seq [sq n]
+  (apply concat 
+         ( (fn rp-sq [sq n]
+  (if (empty? sq)
+    sq
+    (cons (take n (iterate (fn x [y] y) (first sq))) (rp-sq (rest sq) n))
+    )) sq n)
+         ))
+
+(defn fib [n]
+  (map (fn fb [n]
+    (if (<= n 2)
+          1
+          (+ (fb (- n 1)) (fb (- n 2)))
+                    )
+        )
+       (range 1 (+ n 1)))
+  )
+
+(defn truthy [x & next]
+    (cond
+         (not (or x next)) false
+         (and x next ) false
+         :else true
+         )
+    )
+
+(defn test-args [& args]
+  (println args)
+  )
+
+;(defn gcd [a b]
+;  (if (= b 0)
+;    a
+;    (gcd b, (mod a b))
+;    ))
+(defn lcm [x y]
+  (/ (* x y)
+((fn gcd [a b]
+  (if (= b 0)
+    a
+    (gcd b, (mod a b))
+    )) x y))
+     )
+
+(fn lcm-multi [& sq] 
+  (reduce 
+    (fn lcm [x y] 
+      (/ (* x y) 
+         ((fn gcd [a b] 
+            (if (= b 0) 
+              a 
+              (gcd b, (mod a b))
+              )) x y))
+      ) sq))
+
+
+
+
+
+
+
+
 ;(defn num-open-spots [board]
 ;  (let [[row0 row1 row2] board]
 
